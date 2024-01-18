@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="text-center">
+    <h1 style="color: red; font-family: 'Arial', sans-serif;">Listes des Equipes</h1>
+  </div>
+{% if equipes %}
+    <div class="row">
+        {% for equipe in equipes %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ equipe.nome }}</h5>
+                    <p class="card-text">ID: {{ equipe.id }}</p>
+                    <p class="card-text">Pays: {{ equipe.pays }}</p>
+                    <p class="card-text">Division: {{ equipe.division }}</p>
+                                    
+                    <p class="card-text">Nombre des joueurs : A verifier</p>
+
+              <a href="{{ path('equipe_show', {'id': equipe.id}) }}" class="btn btn-dark"><i class="fas fa-info-circle"></i></a>
+<a href="{{ path('delete_equipe', {'id': equipe.id}) }}" class="btn btn-danger" onclick="return confirm('Etes-vous sûr de supprimer {{ equipe.nome }}?');"><i class="fas fa-trash-alt"></i></a>
+<a href="{{ path('equipe_details',{'id':equipe.id}) }}" class="btn btn-danger"><i class="fas fa-users"></i> </a>
+              <a href="{{ path('new_joueurr', {'equipeID': equipe.id}) }}" class="btn btn-dark"><i class="fas fa-plus"></i></a>
+
+<a href="#" class="btn btn-danger"><i class="fas fa-calendar"></i></a>
+
+
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Aucune Equipes</p>
+{% endif %}
+
+<div class="text-center">
+    <a href="{{ path('new_equipe') }}" class="btn btn-danger">Ajouter une autre equipe</a>
+</div>
+
+{% endblock %}

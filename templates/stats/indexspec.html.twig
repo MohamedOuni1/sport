@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Liste des Statistiques {% endblock %}
+
+{% block body %}
+
+  <div class="text-center">
+  <br>
+  <a href="../../home" class="btn btn-dark float-left">
+  <i class="fas fa-arrow-left"></i>
+</a>
+    <h1>Les statistiques de <a href="{{ path('joueur_show', {'id': joueur.id}) }}" style="color:red;">{{ joueur.nom}}</a></h1>
+  </div>
+
+
+
+  {% if stats %}
+    <div class="table-responsive">
+      <table id="stats" class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th class="text-center"><i class="fas fa-calendar"></i> Date</th>
+            <th class="text-center"><i class="fas fa-clock"></i> Minutes jouées</th>
+            <th class="text-center"><i class="fas fa-star"></i> Note</th>
+            <th class="text-center"><i class="fas fa-futbol"></i> Buts</th>
+            <th class="text-center"><i class="fa-solid fa-socks"></i> Assists</th>
+            <th class="text-center"><span class="fas fa-square text-warning"></span> Carton jaune</th>
+            <th class="text-center"><span class="fas fa-square text-danger"></span> Carton rouge</th>
+            <th class="text-center"><i class="fa-sharp fa-solid fa-file-video" style="color:red;"></i> Vidéo</th>
+            <th class="text-center">Avis</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          {% for stat in stats %}
+            <tr>
+              <td>{{ stat.game.datedumatch|date('Y-m-d H:i:s')}}</td>
+              <td>{{ stat.minutejoue }}</td>
+              <td>{{ stat.note }}</td>
+              <td>{{ stat.but }}</td>
+              <td>{{ stat.assist }}</td>
+              <td>{{ stat.cartonjaune }}</td>
+              <td>{{ stat.cartonrouge }}</td>
+              <td>
+                <a href="{{ stat.lien }}" target="_blank">
+                  <i class="fa-sharp fa-solid fa-file-video" style="color:red;"></i>
+                </a>
+              </td>
+              <td>
+                <a href="#" class="btn btn-success"><i class="fas fa-thumbs-up"></i></a>
+                <a href="#" class="btn btn-danger"><i class="fas fa-thumbs-down"></i></a>
+              </td>
+            </tr>
+          {% endfor %}
+
+          {# Calculate totals #}
+          {% set total = {
+            'minutejoue': 0,
+            'note': 0,
+            'but': 0,
+            'assist': 0,
+            'cartonRouge': 0,
+            'cartonJaune': 0,
+          } %}
+
+          {% for stat in stats %}
+            {% set total = total|merge({
+              'minutejoue': total.minutejoue + stat.minutejoue,
+              'note': total.note + stat.note,
+              'but': total.but + stat.but,
+              'assist': total.assist + stat.assist,
+              'cartonRouge': total.cartonRouge + stat.cartonrouge,
+              'cartonJaune': total.cartonJaune + stat.cartonjaune,
+            }) %}
+          {% endfor %}
+
+          {# Display totals #}
+          <tr>
+            <td>Total:</td>
+            <td>{{ total.minutejoue }}</td>
+            <td>{{ total.note }}</td>
+            <td>{{ total.but }}</td>
+            <td>{{ total.assist }}</td>
+            <td>{{ total.cartonRouge }}</td>
+            <td>{{ total.cartonJaune }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>Aucune statistique</p>
+  {% endif %}
+
+              <a href="{{ path('new_stat', {'joueurID': joueur.id}) }}" class="btn btn-danger"><i class="fas fa-plus"></i>Ajouter un statistique</a>
+
+  
+{% endblock %}

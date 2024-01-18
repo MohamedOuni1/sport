@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+{% block title %} Liste des Matchs {% endblock %}
+{% block body %}
+
+  <div class="container mt-4">
+    <div class="text-center">
+      <h1 style="color: red; font-family: 'Arial', sans-serif;">Les matchs à venir</h1>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-dark filter-btn" data-filter="all">Tous</button>
+      <button class="btn btn-danger filter-btn" data-filter="January">January</button>
+      <button class="btn btn-dark filter-btn" data-filter="February">February</button>
+      <button class="btn btn-danger filter-btn" data-filter="March">March</button>
+      <button class="btn btn-dark filter-btn" data-filter="April">April</button>
+      <button class="btn btn-danger filter-btn" data-filter="May">May</button>
+      <button class="btn btn-dark filter-btn" data-filter="June">June</button>
+      <button class="btn btn-danger filter-btn" data-filter="July">July</button>
+      <button class="btn btn-dark filter-btn" data-filter="August">August</button>
+            <button class="btn btn-danger filter-btn" data-filter="September">September</button>
+      <button class="btn btn-dark filter-btn" data-filter="October">October</button>
+      <button class="btn btn-danger filter-btn" data-filter="November">November</button>
+      <button class="btn btn-dark filter-btn" data-filter="December">December</button>
+
+
+    </div>
+<br><br>
+
+      {% set sortedGames = games|sort((a, b) => a.datedumatch.timestamp - b.datedumatch.timestamp) %}
+      <div class="table-responsive" class="text-center">
+        <table id="games" class="table table-bordered" class="text-center">
+          <thead class="table table-bordered" class="text-center">
+            <tr class="text-center">
+              <th><strong>ID</strong></th>
+              <th><strong>Categorie</strong></th>
+              <th>Date</th>
+              <th>Jour</th>
+              <th>Heure</th>
+              <th>Stade</th>
+<th>Equipe domicile</th>
+<th>Equipe Exterieur</th>
+
+              <th>Lien Streaming</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            {% for game in games %}
+    {% if game.score1 == 1000 or game.score2 == 1000 %}
+
+              <tr data-category="{{ game.datedumatch|date('F') }}">
+                <td style="color:red" ><strong>{{ game.id}}</strong></td>
+                <td style="color:red" ><strong>{{ game.category.nomcategory }}</strong></td>
+                <td>{{ game.datedumatch|date('F j') }}</td>
+                <td>{{ game.datedumatch|date('l') }}</td>
+                <td>{{ game.datedumatch|date('H:i') }}</td>
+                <td>{{ game.stade}}</td>
+                
+
+<td>
+    <a href="{{ path('equipe_details', {'id': game.equipe1.id}) }}" style="color: black;">
+        {{ game.equipe1.nome }} 
+    </a>
+</td>
+
+<td>
+
+    <a href="{{ path('equipe_details', {'id': game.equipe2.id}) }}" style="color: black;">
+       {{ game.equipe2.nome }} 
+    </a>
+</td>
+
+
+          <td>     <a href="{{ game.lien }}" target="_blank" class="btn btn-danger btn-sm">
+                <i class="fas fa-tv"></i> Regarder le match
+              </a> </td>
+            
+                              <td>
+                  <a href="{{ path('delete_match', {'id': game.id}) }}" onclick="return confirm('Etes-vous sûr de supprimer ce match?');">
+                    <i class="fas fa-trash" style="color: red;"></i>
+                  </a>
+                  <a href="{{ path('edit_game', {'id': game.id}) }}" onclick="return confirm('Etes-vous sûr de modifier ce match?');">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                </td>
+              </tr>
+                  {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+
+    <a href="{{ path('new_match') }}" class="btn btn-danger mt-3">
+      <i class="fas fa-plus"></i> Ajouter un match
+    </a>
+  </div>
+
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(".filter-btn").on("click", function () {
+        var filter = $(this).data("filter");
+
+        if (filter === "all") {
+          $("#games tbody tr").show();
+        } else {
+          $("#games tbody tr").hide();
+          $("#games tbody tr[data-category='" + filter + "']").show();
+        }
+      });
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Utilisateur{% endblock %}
+{% block body %}
+ {{ form_start(formUser) }}
+ {{ form_widget(formUser) }}
+   <button type="submit" class="btn btn-success">Modifier</button>
+ {{ form_end(formUser) }}
+{% endblock %}

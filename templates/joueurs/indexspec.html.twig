@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+{% block title %} Liste des joueurs {% endblock %}
+{% block body %}
+  <div class="container mt-4">
+  
+<a href="../home1" class="btn btn-dark float-left">
+  <i class="fas fa-arrow-left"></i>
+</a>
+
+
+  <div class="text-center">
+    <h1 style="color: black; font-family: 'Arial', sans-serif;">Listes des joueurs de <strong style="color:red;">{{equipe.nome}} </strong></h1>
+  </div>
+
+
+    {# Triez les joueurs par ordre alphabétique du nom #}
+      <div class="table-responsive">
+
+    <table id="joueurs" class="table table-striped" class="text-center">
+      <thead class="table table-sm table-dark">
+        <tr>
+          <th>Nom joueur</th>
+          <th>Categorie</th>
+          <th>Poste</th>
+         <th>Date de fin contrat</th>
+
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for joueur in listJoueurs %}
+          <tr>
+
+            <td><a href="#" style="color:black;">{{ joueur.nom }}</a></td>
+
+<td>{{ joueur.category.nomcategory|upper }}</td>
+            <td>{{ joueur.poste }}</td>
+            <td>{{ joueur.datefin|date('Y-m') }}</td>
+
+            <td>
+              <a href="{{ path('joueur_show', {'id': joueur.id}) }}" class="btn btn-danger"><i class="fas fa-info-circle"></i></a>
+<a href="#" class="btn btn-danger"><i class="fas fa-edit"></i></a>
+<a href="#" class="btn btn-dark"><i class="fas fa-trash-alt"></i></a>
+              <a href="{{ path('new_stat', {'joueurID': joueur.id}) }}" class="btn btn-dark"><i class="fas fa-plus"></i></a>
+<a href="{{ path('joueur_stats', {'joueurId': joueur.id}) }}" class="btn btn-dark"><i class="fa-solid fa-chart-line"></i></a>
+
+            
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+          </div>
+              <a href="{{ path('new_joueurr', {'equipeID': equipe.id}) }}" class="btn btn-danger"><i class="fas fa-plus"></i>Ajouter un joueur </a>
+
+
+  </div>
+
+ <style>
+    body {
+      background-color: #f8f9fa; /* Set a light background color */
+    }
+
+    table {
+      width: 100%;
+    }
+
+    th, td {
+      text-align: center;
+    }
+
+    .btn {
+      color: #fff; /* Set text color for buttons */
+    }
+
+    .btn-success {
+      background-color: #28a745; /* Set success button color */
+    }
+
+    .btn-danger {
+      background-color: #dc3545; /* Set danger button color */
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333; /* Set darker color on hover for danger button */
+    }
+
+    .mt-3 {
+      margin-top: 1.5rem; /* Adjust margin for better spacing */
+    }
+  </style>
+
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+{% endblock %}

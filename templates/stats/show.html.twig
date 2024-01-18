@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+          <div class="card-header bg-dark text-white">
+          <h1 class="mb-0">Détails du Matchs</h1>
+        </div>
+        <div class="card-body">
+          <div class="details">
+            <h4><span class="text-danger">ID MATCH:</span> {{ game.id }}</h4>
+            <h4><span class="text-danger">Date du rencontre :</span> {{ game.nom }}</h4>
+            <h4><span class="text-danger">Stade :</span> {{ game.dat|date('Y-m-d') }}</h4>
+            <h4><span class="text-danger">Catégorie:</span> {{ game.category.nomcategory }}</h4>
+            <h4><span class="text-danger">Equipe 1:</span> {{ game.equipe.nome }}</h4>
+            <h4><span class="text-danger">Equipe 2:</span> {{ game.equipe.nome }}</h4>
+          </div>
+          <br>
+          <a href="../home" class="btn btn-danger">Retour</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+{% block title %} Liste des joueurs {% endblock %}
+{% block body %}
+  <div class="container mt-4">
+
+    <div class="text-center">
+      <h1 style="color: red; font-family: 'Arial', sans-serif;">Classement</h1>
+    </div>
+
+    <div class="d-flex justify-content-center"> {# Ajoutez cette classe pour centrer le contenu #}
+      {% if classements %}
+        {% set classements = classements|sort((a, b) => b.nbrmg <=> a.nbrmg) %}     
+        <div class="table-responsive">
+
+          <div class="mb-3">
+            <label for="search">Recherche :</label>
+            <input type="text" id="search" class="form-control" placeholder="Nom de l'équipe...">
+          </div>
+
+          <table id="classements" class="table table-striped">
+            <thead class="table table-sm table-dark">
+              <tr>
+                <th class="text-center">Rang</th>
+                <th class="text-center">Nom Equipe</th>
+                <th class="text-center">joué</th>
+                <th class="text-center">gagnés</th>
+                <th class="text-center">perdus</th>
+                <th class="text-center">nulls</th>
+                <th class="text-center">Points </th>
+                <th class="text-center">Actions </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% set rank = 1 %}
+              {% for classement in classements %}
+                <tr data-category="{{ classement.equipe.nome|lower }}">
+                  <td class="text-center">{{ rank }}</td>
+                  <td class="text-center"><a style="color:black;" href="{{ path('equipe_details', {'id': classement.equipe.id}) }}">{{ classement.equipe.nome|upper }}</a></td>
+                  <td class="text-center">{{ classement.nbrm }}</td>
+                  <td class="text-center">{{ classement.nbrmg }}</td>
+                  <td class="text-center">{{ classement.nbrmp }}</td>
+                  <td class="text-center">{{ classement.nbrmn }}</td>
+                  {% set totalp = classement.nbrmn + classement.nbrmg * 3 %}
+                  <td class="text-center">{{ totalp }}</td>
+                  <td class="text-center">
+                    <a href="{{ path('edit_classement', {'id': classement.id}) }}" class="btn btn-danger" onclick="return confirm('Etes-vous sûr de modifier cet equipe ?');">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% set rank = rank + 1 %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p>Aucun equipe trouvé</p>
+      {% endif %}
+    </div>
+
+    <a href="{{ path('new_classement') }}" class="btn btn-danger float-left">
+      <i class="fas fa-plus"></i>Ajouter une equipe
+    </a>
+  </div>
+
+  <style>
+    body {
+      background-color: #f8f9fa; /* Set a light background color */
+    }
+
+    table {
+      width: 100%;
+    }
+
+    th, td {
+      text-align: center;
+    }
+
+    .btn {
+      color: #fff; /* Set text color for buttons */
+    }
+
+    .btn-success {
+      background-color: #28a745; /* Set success button color */
+    }
+
+    .btn-danger {
+      background-color: #dc3545; /* Set danger button color */
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333; /* Set darker color on hover for danger button */
+    }
+
+    .mt-3 {
+      margin-top: 1.5rem; /* Adjust margin for better spacing */
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#search").on("keyup", function () {
+        var searchText = $(this).val().toLowerCase();
+
+        $("#classements tbody tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+        });
+      });
+    });
+  </script>
+{% endblock %}

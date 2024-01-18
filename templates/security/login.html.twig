@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Connexion</h1>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <form action="{{ path('security_login') }}" method="post">
+            <div class="form-group">
+                <label for="_username">Adresse email</label>
+                <input placeholder="Adresse email..." required name="_username" value="{{ lastUsername }}" type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="_password">Mot de passe</label>
+                <input placeholder="Mot de passe..." required name="_password" type="password" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-dark">Connexion</button>
+            </div>
+        </form>
+
+        <a href="{{ path('security_registration') }}" class="btn btn-danger">Je n'ai pas un compte</a>
+    </div>
+{% endblock %}

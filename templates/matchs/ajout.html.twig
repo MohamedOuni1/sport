@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header bg-dark text-white">
+            <h1 class="mb-0">Ajouter un Match</h1>
+          </div>
+          <h3 style="color:red;"><u>SI LE MATCH N'est pas terminée , mettre 1000 à score 1 ou à score 2</u> </h3>
+          <div class="card-body">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+            {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
+
+            <button type="submit" class="btn btn-danger">Créer</button>
+
+            {{ form_end(form) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

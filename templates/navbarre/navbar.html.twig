@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-danger">
+  <div class="container">
+    <a href="{{ path('arriere') }}" class="navbar-brand"><strong>SCOUTING PLAYERS</strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
+      <span class="navbar-toggle-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mobile-nav">
+      <ul class="navbar-nav ml-auto">
+    
+    
+
+        <li class="nav-item">
+          <a href="{{ path('joueur_list') }}" class="btn btn-danger"><strong>Gestion Joueur</strong></a>
+        </li>
+
+
+        <li class="nav-item dropdown"> <!-- Added dropdown class -->
+          <a href="#" class="btn btn-danger dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong>Gestion Equipe</strong>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ path('equipe_list') }}"><strong>BENJAMIS</strong></a>
+            <a class="dropdown-item" href="{{ path('equipe_list') }}"><strong>ECOLES</strong></a>
+            <a class="dropdown-item" href="{{ path('equipe_list') }}"><strong>MINIMES</strong></a>
+            <a class="dropdown-item" href="{{ path('equipe_list') }}"><strong>CADETS</strong></a>
+            <a class="dropdown-item" href="{{ path('equipe_list') }}"><strong>JUNIORS</strong></a>
+            <a class="dropdown-item" href="{{ path('equipe_list') }}"><strong>ELITES</strong></a>
+
+          </div>
+        </li>
+
+
+
+
+ <li class="nav-item dropdown"> <!-- Added dropdown class -->
+          <a href="#" class="btn btn-danger dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong>Gestion match</strong>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ path('match_list') }}"><strong>match prochain</strong></a>
+            <a class="dropdown-item" href="{{ path('match_t_list') }}"><strong>match terminé</strong></a>
+
+          </div>
+        </li>
+
+                <li class="nav-item">
+          <a href="{{ path('classement_list') }}" class="btn btn-dark"><strong>Classements</strong></a>
+        </li>
+
+    
+
+
+
+
+        <li class="nav-item">
+                  <a href="{{ path('security_logout')}}" class="btn btn-danger"><strong>DECONEXION</strong></a>
+      </li>
+      
+
+
+      </ul>
+    </div>
+  </div>
+</nav>

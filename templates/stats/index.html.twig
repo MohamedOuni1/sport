@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Liste des Statistiques {% endblock %}
+
+{% block body %}
+  <div class="text-center">
+    <h1 style="color: red; font-family: 'Arial', sans-serif;">Statistique de tous les joueurs </h1>
+  </div>
+
+  <div class="mb-4">
+    <label for="searchInput" class="form-label">Rechercher:</label>
+    <input type="text" id="searchInput" class="form-control" placeholder="Entrez un nom...">
+  </div>
+
+  {% if stats %}
+    <table id="stats" class="table table-striped">
+      <thead class="table table-sm table-dark">
+        <tr>
+          <th class="text-center"><i class="fa-solid fa-person"></i></th>
+          <th class="text-center"><i class="fas fa-clock"></i></th>
+          <th class="text-center"><i class="fas fa-star"></i></th>
+          <th class="text-center"><i class="fas fa-futbol"></i></th>
+          <th class="text-center"><i class="fa-solid fa-socks"></i></th>
+          <th class="text-center"><span class="fas fa-square text-warning"></span></th>
+          <th class="text-center"><span class="fas fa-square text-danger"></span></th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        {% for stat in stats %}
+          <tr>
+            <td>{{ stat.joueur.nom }}</td>
+            <td>{{ stat.minutejoue }}</td>
+            <td>{{ stat.note }}</td>
+            <td>{{ stat.but }}</td>
+            <td>{{ stat.assist }}</td>
+            <td>{{ stat.cartonjaune }}</td>
+            <td>{{ stat.cartonrouge }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucun Stat</p>
+  {% endif %}
+
+  <a href="{{ path('new_stats') }}" class="btn btn-danger float-left"><i class="fas fa-plus"></i>Ajouter un stat</a>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#searchInput").on("input", function () {
+        var searchTerm = $(this).val().toLowerCase();
+        filterTable(searchTerm);
+      });
+
+      function filterTable(searchTerm) {
+        $("#stats tbody tr").each(function () {
+          var rowText = $(this).text().toLowerCase();
+          if (rowText.includes(searchTerm)) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        });
+      }
+    });
+  </script>
+{% endblock %}

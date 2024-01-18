@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ equipe.nome }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+          <div class="card-header bg-dark text-white">
+          <h1 class="mb-0">Détails de l'Équipe</h1>
+        </div>
+        <div class="card-body">
+          <div class="details">
+            <h4><span style="color:red;">Nom de l'équipe:</span> {{ equipe.nome }}</h4>
+            <h4><span style="color:red;">Pays:</span> {{ equipe.pays }}</h4>
+            <h4><span style="color:red;">Division:</span> {{ equipe.division }}</h4>
+          </div>
+          <hr>
+          <a href="../home1" class="btn btn-danger">Retour</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+{% block title %} Liste des joueurs {% endblock %}
+{% block body %}
+
+  <div class="container mt-4">
+
+    <div class="text-center">
+      <h1 style="color: red; font-family: 'Arial', sans-serif;">Listes des Joueurs</h1>
+    </div>
+
+    <div class="mb-4">
+      <label for="searchInput" class="form-label">Rechercher:</label>
+      <input type="text" id="searchInput" class="form-control" placeholder="Entrez le nom du joueur">
+    </div>
+
+    <div class="mb-4">
+      <label for="categoryFilter" class="form-label">Filtrer par catégorie:</label>
+      <select id="categoryFilter" class="form-control">
+        <option value="all">Toutes les catégories</option>
+        {# Ajoutez ici les options pour chaque catégorie que vous avez #}
+        <option value="benjamins">BENJAMINS</option>
+        <option value="ecoles">ECOLES</option>
+        <option value="minimes">MINIMES</option>
+        <option value="cadets">CADETS</option>
+        <option value="juniors">JUNIORS</option>
+        <option value="elites">ELITES</option>
+      </select>
+    </div>
+
+    {% if joueurs %}
+      {# Triez les joueurs par ordre alphabétique du nom #}
+      {% set joueurs = joueurs|sort((a, b) => a.poste <=> b.poste) %}
+      <div class="table-responsive text-center">
+        <table id="joueurs" class="table table-striped">
+          <thead class="table table-sm table-dark">
+            <tr>
+              <th>Nom joueur</th>
+              <th>Nom Equipe</th>
+              <th>Categorie</th>
+              <th>Poste</th>
+              <th>Date de fin contrat</th>
+              <th>Actions <a href="{{ path('stat_list') }}" class="fas fa-info-circle"></a></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for joueur in joueurs %}
+              <tr data-category="{{ joueur.category.nomcategory|lower }}">
+                <td><a href="{{ path('joueur_show', {'id': joueur.id}) }}" style="color:black;">{{ joueur.nom }}</a></td>
+                <td><a href="{{ path('equipe_show', {'id': joueur.equipe.id}) }}" style="color:black;">{{ joueur.equipe.nome }}</a></td>
+                <td>{{ joueur.category.nomcategory|upper }}</td>
+                <td>{{ joueur.poste }}</td>
+                <td>{{ joueur.datefin|date('Y-m') }}</td>
+                <td>
+                  <a href="{{ path('joueur_show', {'id': joueur.id}) }}" class="btn btn-dark"><i class="fas fa-info-circle"></i></a>
+                  <a href="{{ path('edit_joueur', {'id': joueur.id}) }}" class="btn btn-dark" onclick="return confirm('Etes-vous sûr de modifier {{ joueur.nom }}?');"><i class="fas fa-edit"></i></a>
+                  <a href="{{ path('delete_joueur', {'id': joueur.id}) }}" class="btn btn-danger" onclick="return confirm('Etes-vous sûr de supprimer {{ joueur.nom }}?');"><i class="fas fa-trash-alt"></i></a>
+                  <a href="{{ path('new_stat', {'joueurID': joueur.id}) }}" class="btn btn-dark"><i class="fas fa-plus"></i></a>
+                  <a href="{{ path('joueur_stats', {'joueurId': joueur.id}) }}" class="btn btn-dark"><i class="fa-solid fa-chart-line"></i></a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>Aucun joueur</p>
+    {% endif %}
+
+    <a href="{{ path('new_joueur') }}" class="btn btn-danger float-left"><i class="fas fa-plus"></i>Ajouter un joueur</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#searchInput, #categoryFilter").on("input change", function () {
+          var searchTerm = $("#searchInput").val().toLowerCase();
+          var categoryFilter = $("#categoryFilter").val().toLowerCase();
+          filterTable(searchTerm, categoryFilter);
+        });
+
+        function filterTable(searchTerm, categoryFilter) {
+          $("#joueurs tbody tr").each(function () {
+            var row = $(this);
+            var rowText = row.text().toLowerCase();
+            var rowCategory = row.data("category");
+            var isSearchMatch = rowText.includes(searchTerm) || searchTerm === "";
+            var isCategoryMatch = rowCategory === categoryFilter || categoryFilter === "all";
+
+            if (isSearchMatch && isCategoryMatch) {
+              row.show();
+            } else {
+              row.hide();
+            }
+          });
+        }
+      });
+    </script>
+  </div>
+{% endblock %}
